@@ -2,7 +2,8 @@ import Dashboard from "./components/nick/Dashboard";
 function App() {
   return (
     <>
-      <div>welcome to front end its already linked with bootstrap css</div>
+      <Dashboard name = "About" />
+      {/* Other routes */}
     </>
   );
 }
