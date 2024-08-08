@@ -1,3 +1,4 @@
+import Dashboard from "./components/nick/Dashboard";
 function App() {
   return (
     <>
