@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Admin = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -77,8 +78,8 @@ const Admin = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="row">
+    <div>
+      <div className="row mt-4">
         <div className="col-md-12 text-right">
           <h4>Welcome Admin</h4>
         </div>
@@ -102,8 +103,12 @@ const Admin = () => {
       </div>
       <div className="row mt-2">
         <div className="col-md-12 text-right">
-          <button className="btn btn-primary btn-sm mr-2">Add Books</button>
-          <button className="btn btn-secondary btn-sm">All Users</button>
+          <Link to="/add-book" className="btn btn-primary btn-sm mr-2">
+            Add Books
+          </Link>
+          <Link to="/all-users" className="btn btn-secondary btn-sm">
+            All Users
+          </Link>
         </div>
       </div>
       <div className="row mt-4">
