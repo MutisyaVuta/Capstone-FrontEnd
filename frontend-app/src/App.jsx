@@ -1,12 +1,9 @@
-import Admin from "./components/louis/Admin";
-import AllUsers from "./components/louis/Allusers";
-import Addbook from "./components/louis/Addbook";
-import Das from "./components/louis/Das";
+import Trial from "./components/louis/Trial";
 function App() {
   return (
     <>
       <div>
-        <Das />
+        <Trial />
       </div>
     </>
   );
