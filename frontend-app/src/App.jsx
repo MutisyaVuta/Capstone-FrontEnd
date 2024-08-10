@@ -1,10 +1,11 @@
-import Dashboard from "./components/nick/Dashboard";
+import React from 'react';
+import Dashboard from './components/nick/Dashboard';
+
 function App() {
   return (
-    <>
-      <Dashboard name = "About" />
-      {/* Other routes */}
-    </>
+    <div className="App">
+      <Dashboard />
+    </div>
   );
 }
 
