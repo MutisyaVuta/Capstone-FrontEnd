@@ -114,7 +114,7 @@ const Admin = () => {
               <input
                 className="form-control"
                 type="search"
-                placeholder="Search"
+                placeholder="Search by title"
                 aria-label="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
