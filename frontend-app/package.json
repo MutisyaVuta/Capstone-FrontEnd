@@ -1,20 +1,33 @@
 {
-  "name": "frontend-app",
+  "name": "capstone-frontend",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "vite.config.js",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",
+<<<<<<< HEAD
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1"
+=======
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+>>>>>>> origin
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -26,9 +39,15 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "vite": "^5.4.0"
   },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MutisyaVuta/Capstone-FrontEnd.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MutisyaVuta/Capstone-FrontEnd/issues"
+  },
+  "homepage": "https://github.com/MutisyaVuta/Capstone-FrontEnd#readme"
 }

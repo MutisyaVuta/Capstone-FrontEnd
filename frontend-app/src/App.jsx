@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './components/nina/Signup';
@@ -14,7 +15,7 @@ const App = () => {
         </Routes>
       </div> 
     </Router>
-  );
-};
 
+  )
+  }
 export default App;
