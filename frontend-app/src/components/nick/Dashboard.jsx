@@ -124,9 +124,11 @@ const Dashboard = () => {
                         Location: {book.book_location}
                       </p>
                       <div className="d-flex justify-content-between">
-                        <button className="btn btn-primary btn-sm">
-                          Borrow
-                        </button>
+                        <Link to="/loan">
+                          <button className="btn btn-primary btn-sm">
+                            Borrow
+                          </button>
+                        </Link>
                         <button className="btn btn-secondary btn-sm">
                           Return
                         </button>
