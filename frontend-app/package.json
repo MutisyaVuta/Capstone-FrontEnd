@@ -1,5 +1,10 @@
 {
   "name": "capstone-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "vite.config.js",
   "private": true,
   "version": "1.0.0",
   "type": "module",
