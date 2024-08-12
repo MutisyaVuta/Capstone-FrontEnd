@@ -4,7 +4,7 @@ import Admin from "./Admin";
 import Dashboard from "../nick/Dashboard";
 import Addbook from "./Addbook";
 import Allusers from "./Allusers";
-import Sign from "./Sign";
+import Loan from "../liam/Loan";
 
 const Trial = () => {
   return (
@@ -12,7 +12,6 @@ const Trial = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/sign" element={<Sign />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/add-book" element={<Addbook />} />
           <Route path="/all-users" element={<Allusers />} />
