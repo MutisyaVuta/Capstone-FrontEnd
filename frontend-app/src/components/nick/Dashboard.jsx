@@ -89,12 +89,12 @@ const Dashboard = () => {
             </form>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link" href="/login">
+                <a className="nav-link" href="/Login">
                   Login
                 </a>
               </li>
               <li className="nav-item ml-auto">
-                <Link to="/Sign" className="nav-link">
+                <Link to="/Sign-up" className="nav-link">
                   Sign Up
                 </Link>
               </li>
