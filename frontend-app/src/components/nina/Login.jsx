@@ -8,19 +8,31 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-      const response = await axios.post("http://localhost:8080/login", {
-        email,
-        password,
-      });
+      const payload = { email, password };
+      console.log("Sending login request with:", JSON.stringify(payload, null, 2));
+
+      const response = await axios.post("http://localhost:8080/login", payload);
+
+      console.log("Login response:", JSON.stringify(response.data, null, 2));
+
       if (response.data.message === "Login success") {
-        // Handle successful login
-        console.log("Login successful!");
+        alert("Login successful!");
+        // Handle successful login, e.g., store token and redirect
+        localStorage.setItem('token', response.data.token); // Save token if needed
       } else {
         setError(response.data.message);
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      console.error("Error during login:", error);
+
+      if (error.response && error.response.data) {
+        // Display error message from backend if available
+        setError(error.response.data.message || "An error occurred. Please try again.");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
     }
   };
 
