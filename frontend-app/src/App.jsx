@@ -1,12 +1,14 @@
-import Trial from "./components/louis/Trial";
+import React from 'react';
+import Dashboard from './components/nick/Dashboard';
+
+
 function App() {
   return (
-    <>
-      <div>
-        <Trial />
-      </div>
-    </>
-  );
+    <div className="App">
+      <Dashboard />
+    </div>
+  )
+
 }
 
 export default App;
