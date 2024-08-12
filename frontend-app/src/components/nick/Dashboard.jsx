@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-const Das = () => {
+const Dashboard = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -33,8 +34,12 @@ const Das = () => {
     <div>
       <header>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" href="#">
-            Library
+          <a
+            className="navbar-brand"
+            href="#"
+            style={{ fontSize: "1.75rem", fontWeight: "bold" }}
+          >
+            BookNest
           </a>
           <button
             className="navbar-toggler"
@@ -74,15 +79,15 @@ const Das = () => {
                   Login
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+              <li className="nav-item ml-auto">
+                <Link to="/Sign" className="nav-link">
                   Sign Up
-                </a>
+                </Link>
               </li>
               <li className="nav-item ml-auto">
-                <a className="nav-link" href="#">
+                <Link to="/admin" className="nav-link">
                   Admin
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -136,4 +141,4 @@ const Das = () => {
   );
 };
 
-export default Das;
+export default Dashboard;
