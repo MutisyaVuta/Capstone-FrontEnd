@@ -1,10 +1,10 @@
-import Loan from "./components/liam/Loan";
-
+import Trial from "./components/louis/Trial";
 function App() {
   return (
     <>
-      <div>welcome to front end its already linked with bootstrap css</div>
-      <Loan />
+      <div>
+        <Trial />
+      </div>
     </>
   );
 }
