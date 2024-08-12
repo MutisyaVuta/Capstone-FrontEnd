@@ -13,7 +13,7 @@ const AllUsers = () => {
     baseURL: "http://127.0.0.1:8080",
   });
 
-  //fetch all users
+  // Fetch all users
   const fetchAllUsers = async () => {
     setLoading(true);
     try {
@@ -26,7 +26,7 @@ const AllUsers = () => {
     }
   };
 
-  //search
+  // Search
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
@@ -48,51 +48,90 @@ const AllUsers = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-3">All Users</h2>
-      <div className="input-group mb-3">
-        <input
-          type="search"
-          className="form-control"
-          placeholder="Search by admission number"
-          aria-label="Search"
-          aria-describedby="search-btn"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-        <button
-          className="btn btn-outline-secondary"
-          type="button"
-          id="search-btn"
-          onClick={handleSearch}
-          disabled={loading}
-        >
-          {loading ? "Searching..." : "Search"}
-        </button>
+    <div
+      style={{
+        backgroundColor: "sage",
+        minHeight: "100vh",
+        margin: 0,
+        padding: 0,
+      }}
+    >
+      <header
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "10px 10px 0 0",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <h2 className="text-center mb-0">All Users</h2>
+      </header>
+      <div
+        className="container mt-5"
+        style={{
+          backgroundColor: "#cccccc",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          maxWidth: "800px",
+          margin: "20px auto",
+        }}
+      >
+        <div className="input-group mb-4">
+          <input
+            type="search"
+            className="form-control"
+            placeholder="Search by admission number"
+            aria-label="Search"
+            aria-describedby="search-btn"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            style={{
+              borderRadius: "5px 0 0 5px",
+              borderColor: "#ced4da",
+            }}
+          />
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            id="search-btn"
+            onClick={handleSearch}
+            disabled={loading}
+            style={{
+              borderRadius: "0 5px 5px 0",
+              backgroundColor: "#007bff",
+              color: "white",
+              borderColor: "#007bff",
+              fontWeight: "bold",
+            }}
+          >
+            {loading ? "Searching..." : "Search"}
+          </button>
+        </div>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Admin No</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(searchResults.length > 0 ? searchResults : allUsers).map(
+              (user, index) => (
+                <tr key={user.id}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{user.admn_no}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
       </div>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Admin No</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(searchResults.length > 0 ? searchResults : allUsers).map(
-            (user, index) => (
-              <tr key={user.id}>
-                <th scope="row">{index + 1}</th>
-                <td>{user.admn_no}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
     </div>
   );
 };

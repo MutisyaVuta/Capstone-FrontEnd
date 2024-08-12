@@ -15,7 +15,7 @@ const Trial = () => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/add-book" element={<Addbook />} />
           <Route path="/all-users" element={<Allusers />} />
-          <Route path="/loan" element={<Loan />} />
+          <Route path="/loan/:bookId" element={<Loan />} />
         </Routes>
       </Router>
     </div>
