@@ -74,7 +74,7 @@ const Dashboard = () => {
               <input
                 className="form-control mr-2"
                 type="search"
-                placeholder="Search"
+                placeholder="Search by title"
                 aria-label="Search"
                 style={{ width: "600px" }}
                 value={searchTerm}
