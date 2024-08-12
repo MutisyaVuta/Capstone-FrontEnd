@@ -12,7 +12,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<div>Welcome! <a href="/login">Login</a> or <a href="/signup">Sign Up</a></div>} />
         </Routes>
-      </div>
+      </div> 
     </Router>
   );
 };
