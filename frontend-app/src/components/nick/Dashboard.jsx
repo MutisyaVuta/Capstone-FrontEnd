@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -30,6 +31,29 @@ const Dashboard = () => {
       });
   };
 
+  const handleLogout = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        "http://127.0.0.1:8080/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        localStorage.removeItem("token");
+        alert("Logged out successfully!");
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div
       style={{
@@ -42,8 +66,8 @@ const Dashboard = () => {
       <header
         style={{
           padding: "20px",
+          backgroundColor: "white",
           borderRadius: "10px 10px 0 0",
-          width: "100%",
           boxShadow: "0 0 10px rgba(0,0,0,0.5)",
         }}
       >
@@ -70,57 +94,75 @@ const Dashboard = () => {
             <form
               className="form-inline my-2 my-lg-0 mx-auto"
               onSubmit={handleSearch}
+              style={{
+                maxWidth: "600px",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "10px",
+                borderRadius: "5px",
+                boxShadow: "0 0 5px rgba(0,0,0,0.2)",
+              }}
             >
               <input
                 className="form-control mr-2"
                 type="search"
                 placeholder="Search by title"
                 aria-label="Search"
-                style={{ width: "600px" }}
+                style={{
+                  borderRadius: "5px",
+                  flex: "1",
+                  marginRight: "10px",
+                  border: "1px solid #ced4da",
+                }}
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
               <button
-                className="btn btn-outline-dark my-2 my-sm-0"
+                className="btn btn-outline-dark"
                 type="submit"
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #ced4da",
+                  backgroundColor: "#ffffff",
+                  color: "#333",
+                }}
               >
                 Search
               </button>
             </form>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link" href="/Login">
+                <a className="nav-link" href="/login">
                   Login
                 </a>
               </li>
-              <li className="nav-item ml-auto">
-                <Link to="/Sign-up" className="nav-link">
+              <li className="nav-item">
+                <Link to="/sign-up" className="nav-link">
                   Sign Up
                 </Link>
               </li>
-              <li className="nav-item ml-auto">
+              <li className="nav-item">
                 <Link to="/admin" className="nav-link">
                   Admin
                 </Link>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={handleLogout}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
         </nav>
       </header>
-      <hr
-        style={{
-          border: "none",
-          borderTop: "1px solid #ccc",
-          margin: "0",
-          padding: "0",
-        }}
-      />
+      <hr style={{ border: "none", borderTop: "1px solid #ccc" }} />
       <div
-        className="container mt-4"
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#cccccc",
           padding: "20px",
           borderRadius: "10px",
+          marginTop: "20px",
         }}
       >
         <div className="row">
@@ -168,20 +210,17 @@ const Dashboard = () => {
           padding: "30px",
           borderRadius: "0 0 10px 10px",
           textAlign: "center",
-          width: "100%",
           boxShadow: "0 0 10px rgba(0,0,0,0.5)",
         }}
       >
         <p>&copy; 2024 BookNest. All rights reserved.</p>
-
         <p>
           Contact us:
           <br />
           Email: <a href="mailto:contact@booknest.com">contact@booknest.com</a>
           <br />
-          Phone: <a href="tel:+254789786432">+254792756232</a>
+          Phone: <a href="tel:+254789786432">+254789786432</a>
         </p>
-
         <p>
           Follow us:
           <br />
@@ -209,7 +248,6 @@ const Dashboard = () => {
             Instagram
           </a>
         </p>
-
         <p>
           Interesting links:
           <br />
