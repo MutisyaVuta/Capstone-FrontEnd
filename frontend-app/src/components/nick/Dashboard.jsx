@@ -179,7 +179,7 @@ const Dashboard = () => {
           <br />
           Email: <a href="mailto:contact@booknest.com">contact@booknest.com</a>
           <br />
-          Phone: <a href="tel:+1234567890">+123-456-7890</a>
+          Phone: <a href="tel:+254789786432">+254792756232</a>
         </p>
 
         <p>

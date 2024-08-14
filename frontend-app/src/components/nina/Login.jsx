@@ -16,14 +16,14 @@ const Login = () => {
         JSON.stringify(payload, null, 2)
       );
 
-      const response = await axios.post("http://localhost:8080/login", payload);
+      const response = await axios.post("http://127.0.0.1:8080/login", payload);
 
       console.log("Login response:", JSON.stringify(response.data, null, 2));
 
-      if (response.data.message === "Login success") {
+      if (response.data.token) {
         alert("Login successful!");
-        // Handle successful login, e.g., store token and redirect
-        localStorage.setItem("token", response.data.token); // Save token if needed
+        // Store token locally
+        localStorage.setItem("token", response.data.token);
       } else {
         setError(response.data.message);
       }
