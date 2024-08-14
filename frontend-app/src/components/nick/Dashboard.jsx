@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import getToken from "../nina/Token";
 
 const Dashboard = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); //authentication status
+  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false); // modal visibility
+  const [code, setCode] = useState(""); // code input
+  const [codeError, setCodeError] = useState(""); // code error message
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setIsAuthenticated(true);
+    }
+
     axios
       .get("http://127.0.0.1:8080/books")
       .then((response) => {
         setBooks(response.data.books);
+        setLoading(false); // loading set to false once data is fetched
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false); // loading to false on error too
       });
   }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
+    const token = getToken();
+    if (!token) return; // if you ain't authenticated nthn is done
+
     axios
       .post("http://127.0.0.1:8080/search_book", { title: searchTerm })
       .then((response) => {
@@ -33,7 +49,9 @@ const Dashboard = () => {
 
   const handleLogout = (event) => {
     event.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = getToken();
+    if (!token) return; // No token, do nothing
+
     axios
       .post(
         "http://127.0.0.1:8080/logout",
@@ -47,12 +65,37 @@ const Dashboard = () => {
       .then(() => {
         localStorage.removeItem("token");
         alert("Logged out successfully!");
+        setIsAuthenticated(false); // Update authentication status
         navigate("/login");
       })
       .catch((error) => {
         console.error(error);
       });
   };
+
+  const openCodeModal = () => {
+    setIsCodeModalOpen(true);
+  };
+
+  const closeCodeModal = () => {
+    setIsCodeModalOpen(false);
+    setCode("");
+    setCodeError("");
+  };
+
+  const handleCodeSubmit = (event) => {
+    event.preventDefault();
+    if (code === "moringa") {
+      navigate("/admin");
+      closeCodeModal();
+    } else {
+      setCodeError("Invalid code. Please try again.");
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Render a loading indicator while fetching data
+  }
 
   return (
     <div
@@ -132,26 +175,33 @@ const Dashboard = () => {
               </button>
             </form>
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/login">
-                  Login
-                </a>
-              </li>
-              <li className="nav-item">
-                <Link to="/sign-up" className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/admin" className="nav-link">
-                  Admin
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" onClick={handleLogout}>
-                  Logout
-                </a>
-              </li>
+              {!isAuthenticated ? (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/login">
+                      Login
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/sign-up" className="nav-link">
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#" onClick={openCodeModal}>
+                      Admin
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#" onClick={handleLogout}>
+                      Logout
+                    </a>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </nav>
@@ -182,23 +232,29 @@ const Dashboard = () => {
                   {book.book_location && (
                     <p className="card-text">Location: {book.book_location}</p>
                   )}
-                  <div className="d-flex justify-content-center">
-                    <Link to={`/loan/${book.id}`}>
-                      <button
-                        className="btn"
-                        style={{
-                          backgroundColor: "#20c997", // Soft teal color
-                          color: "white",
-                          padding: "12px 24px",
-                          fontSize: "18px",
-                          borderRadius: "5px",
-                          border: "none",
-                        }}
-                      >
-                        Borrow
-                      </button>
-                    </Link>
-                  </div>
+                  {isAuthenticated ? (
+                    <div className="d-flex justify-content-center">
+                      <Link to={`/loan/${book.id}`}>
+                        <button
+                          className="btn"
+                          style={{
+                            backgroundColor: "#20c997", // Soft teal color
+                            color: "white",
+                            padding: "12px 24px",
+                            fontSize: "18px",
+                            borderRadius: "5px",
+                            border: "none",
+                          }}
+                        >
+                          Borrow
+                        </button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <p>Please log in to borrow books.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -268,6 +324,70 @@ const Dashboard = () => {
           </a>
         </p>
       </footer>
+
+      {/* Code Verification Modal */}
+      {isCodeModalOpen && (
+        <div
+          className="modal"
+          style={{
+            display: "block",
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            zIndex: "1000",
+          }}
+        >
+          <div
+            className="modal-dialog"
+            style={{
+              margin: "100px auto",
+              maxWidth: "500px",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              padding: "20px",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+            }}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Enter Admin Code</h5>
+                <button
+                  type="button"
+                  className="close"
+                  aria-label="Close"
+                  onClick={closeCodeModal}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form onSubmit={handleCodeSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="admin-code">Code:</label>
+                    <input
+                      type="password"
+                      id="admin-code"
+                      className="form-control"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      required
+                    />
+                    {codeError && (
+                      <div className="text-danger">{codeError}</div>
+                    )}
+                  </div>
+                  <button type="submit" className="btn btn-primary">
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
