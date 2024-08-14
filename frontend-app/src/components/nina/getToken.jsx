@@ -1,5 +1,4 @@
-
 export default function getToken() {
-    let token = localStorage.getItem('token')
-    return token
-   }
+  let token = localStorage.getItem("token");
+  return token;
+}
