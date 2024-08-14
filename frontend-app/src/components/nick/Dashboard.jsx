@@ -8,10 +8,10 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); //authentication status
-  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false); // modal visibility
-  const [code, setCode] = useState(""); // code input
-  const [codeError, setCodeError] = useState(""); // code error message
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // State for authentication status
+  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false); // State for modal visibility
+  const [code, setCode] = useState(""); // State for code input
+  const [codeError, setCodeError] = useState(""); // State for code error message
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,18 +24,18 @@ const Dashboard = () => {
       .get("http://127.0.0.1:8080/books")
       .then((response) => {
         setBooks(response.data.books);
-        setLoading(false); // loading set to false once data is fetched
+        setLoading(false); // Set loading to false once data is fetched
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); // loading to false on error too
+        setLoading(false); // Set loading to false even on error
       });
   }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
     const token = getToken();
-    if (!token) return; // if you ain't authenticated nthn is done
+    if (!token) return; // Do nothing if not authenticated
 
     axios
       .post("http://127.0.0.1:8080/search_book", { title: searchTerm })
@@ -391,5 +391,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
+//
 export default Dashboard;
