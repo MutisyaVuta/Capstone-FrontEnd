@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,6 +26,8 @@ const Login = () => {
         alert("Login successful!");
         // Store token locally
         localStorage.setItem("token", response.data.token);
+        //successful login
+        navigate("/");
       } else {
         setError(response.data.message);
       }
@@ -47,18 +51,21 @@ const Login = () => {
       style={{
         backgroundColor: "sage",
         minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         padding: "0",
         margin: "0",
       }}
     >
       <div
-        className="container d-flex justify-content-center align-items-center"
+        className="container"
         style={{
           backgroundColor: "#cccccc",
           padding: "40px 20px",
           borderRadius: "10px",
           maxWidth: "500px",
-          marginTop: "40px",
+          width: "100%",
         }}
       >
         <div className="card" style={{ width: "100%" }}>
