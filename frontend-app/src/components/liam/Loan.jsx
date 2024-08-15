@@ -67,7 +67,7 @@ function Loan() {
     }
   }
 
-  // Return the book
+  // Return the book and delete the loan record
   async function returnBook() {
     if (!loanId) {
       setError("Loan ID is not set. Please create a loan first.");
@@ -75,15 +75,22 @@ function Loan() {
     }
 
     try {
-      const res = await axios.post(
+      // Make the request to return the book
+      const returnResponse = await axios.post(
         `http://127.0.0.1:8080/loans/${loanId}/return`
       );
-      setFines(res.data.fines); // Update fines after return
+      // Update fines after return
+      setFines(returnResponse.data.fines);
+
+      // Delete the loan record from the database
+      await axios.delete(`http://127.0.0.1:8080/delete_loan/${loanId}`);
+
       alert(
         "Thank you for returning your book! 📚 We hope you enjoyed Booknest's vast catalog"
       );
       setLoanId(null); // Clear loanId after return
-      console.log("Returned Book. Fines:", res.data.fines);
+      setFines(null); // Clear fines after return
+      console.log("Returned Book. Fines:", returnResponse.data.fines);
     } catch (err) {
       console.error("Error returning book:", err);
       setError("Error returning book. Please try again.");
