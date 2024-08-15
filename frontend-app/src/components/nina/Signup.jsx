@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Sign = () => {
   const [name, setName] = useState("");
@@ -7,6 +8,7 @@ const Sign = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,8 +19,10 @@ const Sign = () => {
         admn_no: admissionNumber,
         password,
       });
+
       if (response.data.message === "Sign up success") {
         alert("Sign up successful!");
+        navigate("/login"); // Navigate to login page
       } else {
         setError(response.data.message);
       }

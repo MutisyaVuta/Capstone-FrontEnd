@@ -5,12 +5,12 @@ import { useParams } from "react-router-dom";
 function Loan() {
   const { bookId } = useParams();
   const [book, setBook] = useState({});
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(1); // Replace with actual user ID as needed
   const [loanId, setLoanId] = useState(null);
   const [fines, setFines] = useState(null);
   const [error, setError] = useState("");
 
-  //fetching book details
+  // Fetch book details
   useEffect(() => {
     console.log(`Fetching book with ID ${bookId}`);
     axios
@@ -24,7 +24,8 @@ function Loan() {
         setError("Error fetching book. Please try again.");
       });
   }, [bookId]);
-  //cheking if a loan exists for that specific book
+
+  // Check if a loan exists for the specific book
   useEffect(() => {
     async function getLoanIdForBook() {
       try {
@@ -32,6 +33,7 @@ function Loan() {
           `http://127.0.0.1:8080/loans/book/${bookId}`
         );
         setLoanId(res.data.loan_id);
+        setFines(res.data.fines); // Update fines if available
         console.log("Fetched Loan ID:", res.data.loan_id);
       } catch (error) {
         console.error("Error fetching loan ID:", error);
@@ -43,7 +45,8 @@ function Loan() {
       getLoanIdForBook();
     }
   }, [bookId]);
-  //creating a loan for that specific book
+
+  // Create a loan for the specific book
   async function createLoan() {
     try {
       const res = await axios.post("http://127.0.0.1:8080/loans", {
@@ -53,8 +56,9 @@ function Loan() {
 
       // Update loanId with the ID returned from the server
       setLoanId(res.data.loan_id);
+      setFines(null); // Clear fines since this is a new loan
       alert(
-        "📖 We're excited to help you discover new reads,ur loan is valid for a week"
+        "📖 We're excited to help you discover new reads, your loan is valid for a week"
       );
       console.log("Created Loan ID:", res.data.loan_id);
     } catch (error) {
@@ -62,7 +66,8 @@ function Loan() {
       setError("Error creating loan. Please try again.");
     }
   }
-  //returning the book
+
+  // Return the book
   async function returnBook() {
     if (!loanId) {
       setError("Loan ID is not set. Please create a loan first.");
@@ -73,10 +78,11 @@ function Loan() {
       const res = await axios.post(
         `http://127.0.0.1:8080/loans/${loanId}/return`
       );
-      setFines(res.data.fines);
+      setFines(res.data.fines); // Update fines after return
       alert(
         "Thank you for returning your book! 📚 We hope you enjoyed Booknest's vast catalog"
       );
+      setLoanId(null); // Clear loanId after return
       console.log("Returned Book. Fines:", res.data.fines);
     } catch (err) {
       console.error("Error returning book:", err);
@@ -87,7 +93,7 @@ function Loan() {
   return (
     <div
       style={{
-        backgroundColor: "sage",
+        backgroundColor: "#F0F0F0",
         minHeight: "100vh",
         margin: 0,
         padding: 0,
@@ -96,22 +102,29 @@ function Loan() {
       <header
         style={{
           backgroundColor: "white",
-          padding: "20px",
+          padding: "1em",
           borderRadius: "10px 10px 0 0",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+          marginBottom: "1em",
         }}
       >
-        <h2 className="text-center mb-0">Loan Book</h2>
+        <h2
+          className="text-center mb-0"
+          style={{ fontSize: "1.5em", fontWeight: "bold" }}
+        >
+          Loan Book
+        </h2>
       </header>
       <div
         className="container mt-4"
         style={{
-          backgroundColor: "#cccccc",
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          maxWidth: "800px",
-          margin: "20px auto",
+          backgroundColor: "#F9F9F9",
+          padding: "1.5em",
+          borderRadius: "15px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          maxWidth: "600px", // Decreased width
+          minHeight: "400px", // Increased height
+          margin: "0 auto",
         }}
       >
         <div
@@ -119,44 +132,77 @@ function Loan() {
           style={{
             width: "100%",
             backgroundColor: "white",
-            borderRadius: "10px",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "15px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+            padding: "1.5em",
+            marginBottom: "1em",
           }}
         >
           <div
             className="card-body"
             style={{
               backgroundColor: "#FFD7BE",
-              padding: "20px",
+              padding: "1.5em",
+              borderRadius: "15px",
+              boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
             }}
           >
             {error && (
-              <div className="alert alert-danger" role="alert">
+              <div
+                className="alert alert-danger"
+                role="alert"
+                style={{ marginBottom: "1em" }}
+              >
                 {error}
               </div>
             )}
-            <h2 className="card-title">{book.title}</h2>
-            <p className="card-text">
+            <h2
+              className="card-title"
+              style={{ fontSize: "1.5em", fontWeight: "bold" }}
+            >
+              {book.title}
+            </h2>
+            <p
+              className="card-text"
+              style={{ fontSize: "1em", marginBottom: "0.5em" }}
+            >
               <strong>Author:</strong> {book.author}
             </p>
-            <p className="card-text">
+            <p
+              className="card-text"
+              style={{ fontSize: "1em", marginBottom: "0.5em" }}
+            >
               <strong>Location:</strong> {book.book_location}
             </p>
-            <p className="card-text">
-              <strong>Fines:</strong> {fines ? `₹${fines}` : "No fines"}
+            <p
+              className="card-text"
+              style={{ fontSize: "1em", marginBottom: "1em" }}
+            >
+              <strong>Fines:</strong>{" "}
+              {fines !== null ? `₹${fines}` : "No fines"}
             </p>
             <div className="d-flex justify-content-between">
               <button
                 className="btn btn-primary btn-lg"
                 onClick={createLoan}
-                style={{ borderRadius: "5px", fontWeight: "bold" }}
+                style={{
+                  borderRadius: "10px",
+                  fontWeight: "bold",
+                  padding: "0.5em 1em",
+                }}
+                disabled={!!loanId} // Disable if loan already exists
               >
                 Loan
               </button>
               <button
                 className="btn btn-secondary btn-lg"
-                onClick={returnBook} // Trigger return book on button click
-                style={{ borderRadius: "5px", fontWeight: "bold" }}
+                onClick={returnBook}
+                style={{
+                  borderRadius: "10px",
+                  fontWeight: "bold",
+                  padding: "0.5em 1em",
+                }}
+                disabled={!loanId} // Disable if no loan exists
               >
                 Return
               </button>

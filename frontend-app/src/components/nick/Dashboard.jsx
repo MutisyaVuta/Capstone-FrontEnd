@@ -19,7 +19,7 @@ const Dashboard = () => {
     if (token) {
       setIsAuthenticated(true);
     }
-
+    //retrieving the books
     axios
       .get("http://127.0.0.1:8080/books")
       .then((response) => {
@@ -66,7 +66,7 @@ const Dashboard = () => {
         localStorage.removeItem("token");
         alert("Logged out successfully!");
         setIsAuthenticated(false); // Update authentication status
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);
