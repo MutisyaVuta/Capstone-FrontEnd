@@ -82,7 +82,7 @@ const Dashboard = () => {
     setCode("");
     setCodeError("");
   };
-
+  //CODE TO ACCESS THE ADMIN KIT STUFF
   const handleCodeSubmit = (event) => {
     event.preventDefault();
     if (code === "moringa") {
